@@ -142,12 +142,6 @@
     position:relative;
     overflow:hidden;
   }
-  .hero-grid{
-    display:grid;
-    grid-template-columns:1.15fr 0.85fr;
-    gap:64px;
-    align-items:center;
-  }
   .eyebrow{
     font-family:'Karla',sans-serif;
     text-transform:uppercase;
@@ -212,9 +206,6 @@
   }
   .btn-secundario:hover{background:var(--hilo-negro); color:var(--lino);}
 
-  .hero-retrato{
-    position:relative;
-  }
   .retrato-marco{
     position:relative;
     aspect-ratio:4/5;
@@ -222,33 +213,25 @@
     border:1px solid rgba(46,42,38,0.15);
     padding:14px;
   }
-  .retrato-marco::after{
-    content:"";
-    position:absolute;
-    inset:14px;
-    border:1px dashed rgba(139,58,58,0.35);
-    pointer-events:none;
-  }
   .retrato-marco img{
     width:100%;
     height:100%;
     object-fit:cover;
     display:block;
     filter:sepia(6%) saturate(96%);
+    position:relative;
+    z-index:1;
   }
-  .retrato-tag{
+  .marco-esquina{
     position:absolute;
-    bottom:-16px;
-    left:-16px;
-    background:var(--salvia);
-    color:var(--lino);
-    padding:10px 18px;
-    font-family:'Fraunces',serif;
-    font-style:italic;
-    font-size:0.95rem;
-    max-width:220px;
-    box-shadow:0 10px 26px var(--papel-sombra);
+    width:20px;
+    height:20px;
+    border-color:var(--tierra-suave);
+    z-index:2;
+    opacity:0.7;
   }
+  .marco-esquina.tl{top:6px; left:6px; border-top:2px solid; border-left:2px solid;}
+  .marco-esquina.br{bottom:6px; right:6px; border-bottom:2px solid; border-right:2px solid;}
 
   /* ---------- SECCIONES GENERALES ---------- */
   section{
@@ -276,10 +259,11 @@
   #sobre-mi{background:var(--lino-osc);}
   .sobre-mi-grid{
     display:grid;
-    grid-template-columns:0.9fr 1.1fr;
-    gap:60px;
+    grid-template-columns:0.85fr 1.15fr;
+    gap:56px;
     align-items:start;
   }
+  .sobre-mi-foto{position:sticky; top:110px;}
   .cita-grande{
     font-family:'Fraunces',serif;
     font-style:italic;
@@ -495,8 +479,8 @@
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:900px){
     nav ul{display:none;}
-    .hero-grid,.sobre-mi-grid,.trayectoria-cols{grid-template-columns:1fr; gap:40px;}
-    .hero-retrato{order:-1; max-width:320px; margin:0 auto;}
+    .sobre-mi-grid,.trayectoria-cols{grid-template-columns:1fr; gap:40px;}
+    .sobre-mi-foto{position:static; max-width:320px; margin:0 auto;}
     .principios{grid-template-columns:1fr;}
     .principio:not(:last-child){border-right:none; border-bottom:1px dashed rgba(46,42,38,0.2);}
     .galeria-grid{grid-template-columns:repeat(2,1fr);}
@@ -539,20 +523,12 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="contenedor hero-grid">
-      <div>
-        <span class="eyebrow">Arteterapia · Pedagogía Waldorf · Antroposofía</span>
-        <h1 class="hero-title">El arte como <em>lenguaje</em> para lo que las palabras no alcanzan a decir.</h1>
-        <p class="hero-sub">Acompaño procesos de autoconocimiento y sanación a través de la creación artística, integrando la dimensión cognitiva, emocional y creativa de cada persona. Un espacio seguro, cálido y sin juicio — no necesitas saber dibujar ni pintar, solo darte la oportunidad de explorar.</p>
-        <div class="hero-ctas">
-          <a href="https://encuadrado.com/p/viviana-soto-reyes" class="btn btn-primario" target="_blank" rel="noopener">Reservar una sesión</a>
-        </div>
-      </div>
-      <div class="hero-retrato">
-        <div class="retrato-marco">
-          <img src="https://vivianasoto.art/vivi.png" alt="Retrato de Viviana Soto Reyes, arteterapeuta">
-        </div>
-        <div class="retrato-tag">Licenciada en Artes · Arteterapeuta · Profesora de Inglés</div>
+    <div class="contenedor">
+      <span class="eyebrow">Arteterapia · Pedagogía Waldorf · Antroposofía</span>
+      <h1 class="hero-title" style="max-width:18ch;">El arte como <em>lenguaje</em> para lo que las palabras no alcanzan a decir.</h1>
+      <p class="hero-sub">Acompaño procesos de autoconocimiento a través de la creación artística, en un espacio pensado para explorar sin apuro y sin juicio. No necesitas saber dibujar ni pintar — solo darte la oportunidad de explorar.</p>
+      <div class="hero-ctas">
+        <a href="https://encuadrado.com/p/viviana-soto-reyes" class="btn btn-primario" target="_blank" rel="noopener">Reservar una sesión</a>
       </div>
     </div>
   </section>
@@ -562,15 +538,19 @@
   <!-- SOBRE MI -->
   <section id="sobre-mi">
     <div class="contenedor sobre-mi-grid">
-      <div>
-        <span class="eyebrow">Sobre mí</span>
-        <h2>Crear también es una forma de encontrarte contigo.</h2>
+      <div class="sobre-mi-foto">
+        <div class="retrato-marco">
+          <span class="marco-esquina tl"></span>
+          <span class="marco-esquina br"></span>
+          <img src="https://vivianasoto.art/vivi.png" alt="Retrato de Viviana Soto Reyes, arteterapeuta">
+        </div>
       </div>
       <div class="sobre-mi-texto">
+        <span class="eyebrow">Sobre mí</span>
+        <h2>Crear también es una forma de encontrarte contigo.</h2>
         <p class="cita-grande">A veces las palabras no bastan para expresar lo que vivimos. El arte puede abrir ese camino.</p>
-        <p>Como arteterapeuta, te acompaño en un espacio seguro y creativo donde, a través de la creación artística, podrás explorar tus emociones, reconectar contigo, dar sentido a lo que estás viviendo y descubrir nuevos recursos para transitar momentos de cambio.</p>
-        <p>Un proceso para recuperar el equilibrio, cultivar una relación más amable contigo y encontrar nuevas formas de habitar tu vida. No necesitas saber dibujar ni pintar; solo darte la oportunidad de explorar.</p>
-        <p>También facilito talleres de arteterapia para niños y niñas, y realizo clases de inglés con una metodología cercana, creativa y centrada en la motivación.</p>
+        <p>Como arteterapeuta, te acompaño en un espacio seguro y creativo donde, a través de la creación artística, podrás explorar tus emociones, reconectar contigo y dar sentido a lo que estás viviendo.</p>
+        <p>No necesitas saber dibujar ni pintar; solo darte la oportunidad de explorar. También facilito talleres de arteterapia para niños y niñas, y hago clases de inglés con una metodología cercana y creativa.</p>
         <p style="font-size:0.9rem; color:var(--tinta-suave); border-top:1px dashed rgba(46,42,38,0.25); padding-top:18px; margin-top:28px;">Licenciada en Artes (UTEM) · Profesora de Inglés (USACH) · Postítulo en Arteterapia (Espacio Crea) · Formación en pedagogía Waldorf y antroposofía.</p>
         <p class="firma">— Viviana</p>
       </div>
@@ -585,7 +565,7 @@
       <div class="seccion-header centrada">
         <span class="eyebrow" style="justify-content:center;">Una mirada integral</span>
         <h2>El arte como puente entre pensar, sentir y hacer</h2>
-        <p>Inspirada en la antroposofía y la pedagogía Waldorf, entiendo el proceso creativo como un movimiento que involucra a la persona completa: su cuerpo, su alma y su espíritu. El color, la forma y el gesto se vuelven herramientas para escuchar lo que habita en cada uno.</p>
+        <p>Mi formación en pedagogía Waldorf y antroposofía me enseñó a mirar el proceso creativo como algo que compromete a la persona completa, no solo su capacidad de "hacer arte bonito". El color, la forma y el gesto se convierten en un lenguaje propio, distinto al de las palabras.</p>
       </div>
       <div class="principios borde-tela">
         <div class="principio">
@@ -730,7 +710,7 @@
   <div class="contenedor">
     <p style="font-family:'Fraunces',serif; font-style:italic; font-size:1.05rem; color:var(--hilo-negro);">Viviana Soto Reyes</p>
     <p>Licenciada en Artes · Profesora de Inglés · Arteterapeuta — Lago Ranco, Chile</p>
-    <p><a href="mailto:XXX@gmail.com">XXX@gmail.com</a> · +56 9 XXXX XXXX</p>
+    <p><a href="mailto:vivis.lpc@gmail.com">vivis.lpc@gmail.com</a> · +56 9 9917 2304</p>
   </div>
 </footer>
 
