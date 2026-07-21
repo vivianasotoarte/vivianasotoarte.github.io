@@ -1,161 +1,739 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nexus - Infinite Possibilities</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    :root{--primary:#00f;--dark:#0a0e27;--accent:#0ff;--text:#fff}
-    body{font:16px 'Segoe UI',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;line-height:1.6}
-    
-    /* Animated background */
-    body::before{content:'';position:fixed;top:0;left:0;width:200%;height:200%;background:
-      radial-gradient(circle at 20% 50%, rgba(0,255,255,.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(0,0,255,.1) 0%, transparent 50%);
-      animation:drift 20s ease-in-out infinite;z-index:-1}
-    
-    @keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,50px)}}
-    @keyframes glow{0%,100%{box-shadow:0 0 20px var(--accent),inset 0 0 20px rgba(0,255,255,.1)}50%{box-shadow:0 0 40px var(--accent),inset 0 0 40px rgba(0,255,255,.2)}}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
-    @keyframes slideIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-    
-    /* Navigation */
-    nav{position:fixed;top:0;width:100%;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;z-index:100;background:linear-gradient(180deg,rgba(10,14,39,.8),transparent);backdrop-filter:blur(10px);animation:slideIn .6s ease}
-    nav span{font-weight:700;font-size:24px;background:linear-gradient(45deg,var(--accent),var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    nav a{color:var(--text);text-decoration:none;margin:0 20px;transition:color .3s;font-size:14px}
-    nav a:hover{color:var(--accent)}
-    
-    /* Hero Section */
-    .hero{min-height:100vh;display:grid;place-items:center;position:relative;overflow:hidden;animation:slideIn .8s ease}
-    .hero h1{font-size:clamp(48px,12vw,120px);font-weight:800;text-align:center;line-height:1.1;margin-bottom:20px;background:linear-gradient(135deg,var(--accent),var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:glow 3s ease-in-out infinite}
-    .hero p{font-size:clamp(16px,3vw,24px);max-width:600px;text-align:center;color:#aaa;margin-bottom:40px;animation:slideIn .8s ease .2s both}
-    
-    .cta-group{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;animation:slideIn .8s ease .4s both}
-    button{padding:14px 40px;font-size:16px;border:2px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;border-radius:50px;transition:all .3s;font-weight:600;position:relative;overflow:hidden}
-    button::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--accent);z-index:-1;transition:.3s}
-    button:hover::before{left:0}
-    button:hover{color:var(--dark)}
-    button.primary{background:var(--accent);color:var(--dark)}
-    button.primary:hover::before{left:100%}
-    
-    /* Floating elements */
-    .float{position:absolute;animation:float 4s ease-in-out infinite;opacity:.15}
-    .float:nth-child(1){width:300px;height:300px;top:10%;left:10%;border:2px solid var(--accent);border-radius:30% 70% 70% 30%;animation-delay:0s}
-    .float:nth-child(2){width:200px;height:200px;top:60%;right:10%;border:2px solid var(--primary);border-radius:70% 30% 30% 70%;animation-delay:1s}
-    .float:nth-child(3){width:250px;height:250px;bottom:10%;left:50%;border:2px solid var(--accent);border-radius:50%;animation-delay:2s}
-    
-    /* Feature Grid */
-    .features{padding:100px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;max-width:1400px;margin:0 auto;animation:slideIn 1s ease .6s both}
-    .feature{padding:40px;border:1px solid rgba(0,255,255,.2);border-radius:15px;background:linear-gradient(135deg,rgba(0,255,255,.05),rgba(0,0,255,.05));transition:all .3s;cursor:pointer;position:relative;overflow:hidden}
-    .feature::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(0,255,255,.2),transparent);opacity:0;transition:.5s}
-    .feature:hover{border-color:var(--accent);transform:translateY(-10px);background:linear-gradient(135deg,rgba(0,255,255,.1),rgba(0,0,255,.1))}
-    .feature:hover::before{opacity:1;animation:pulse 2s ease-in-out infinite}
-    .feature h3{margin-bottom:15px;color:var(--accent);font-size:18px}
-    .feature p{font-size:14px;color:#aaa;line-height:1.7}
-    .feature-icon{font-size:40px;margin-bottom:15px}
-    
-    /* Stats Section */
-    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:40px;padding:60px 40px;text-align:center;animation:slideIn 1s ease .8s both}
-    .stat-item h2{font-size:clamp(32px,6vw,56px);color:var(--accent);margin-bottom:10px}
-    .stat-item p{color:#aaa;font-size:14px}
-    
-    /* Call-to-Action Section */
-    .cta-section{padding:80px 40px;text-align:center;background:linear-gradient(135deg,rgba(0,255,255,.05),rgba(0,0,255,.05));margin:40px;border-radius:20px;border:1px solid rgba(0,255,255,.2);animation:slideIn 1s ease 1s both}
-    .cta-section h2{font-size:clamp(32px,5vw,48px);margin-bottom:20px;color:var(--accent)}
-    .cta-section p{max-width:500px;margin:0 auto 30px;color:#aaa}
-    
-    /* Footer */
-    footer{padding:40px;text-align:center;color:#666;font-size:14px;border-top:1px solid rgba(0,255,255,.1)}
-    
-    /* Responsive */
-    @media(max-width:768px){
-      nav{padding:15px 20px}
-      nav a{margin:0 10px;font-size:12px}
-      .hero h1{font-size:42px}
-      .hero p{font-size:16px}
-      .cta-group{flex-direction:column;align-items:center}
-      button{width:100%;max-width:300px}
-      .float{opacity:.08}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viviana Soto Reyes — Arteterapeuta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lino:#F4EEE1;
+    --lino-osc:#EAE1CC;
+    --hilo-negro:#2E2A26;
+    --tierra:#8B3A3A;
+    --tierra-suave:#C77B58;
+    --ocre:#C99A3E;
+    --salvia:#5B7B6F;
+    --salvia-osc:#3F5C51;
+    --tinta:#3A3530;
+    --tinta-suave:#6b6258;
+    --papel-sombra: rgba(46,42,38,0.10);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--lino);
+    color:var(--tinta);
+    font-family:'Karla',sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    color:var(--hilo-negro);
+  }
+
+  a{color:inherit;}
+
+  .lienzo-textura{
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(139,58,58,0.03) 0%, transparent 45%),
+      radial-gradient(circle at 80% 70%, rgba(91,123,111,0.04) 0%, transparent 50%);
+  }
+
+  /* --- puntada / costura: elemento firma --- */
+  .puntada{
+    border:none;
+    height:1px;
+    background-image: repeating-linear-gradient(to right, var(--tinta-suave) 0 6px, transparent 6px 12px);
+    opacity:0.5;
+    margin:0;
+  }
+  .puntada-v{
+    width:1px;
+    background-image: repeating-linear-gradient(to bottom, var(--tinta-suave) 0 6px, transparent 6px 12px);
+    opacity:0.4;
+  }
+
+  .borde-tela{
+    position:relative;
+    border:1px solid rgba(46,42,38,0.14);
+  }
+  .borde-tela::before{
+    content:"";
+    position:absolute;
+    inset:6px;
+    border:1px dashed rgba(46,42,38,0.22);
+    pointer-events:none;
+  }
+
+  .contenedor{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- HEADER / NAV ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(244,238,225,0.92);
+    backdrop-filter:blur(6px);
+  }
+  .nav-inner{
+    max-width:1180px;
+    margin:0 auto;
+    padding:18px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+  }
+  .marca{
+    font-family:'Fraunces',serif;
+    font-size:1.25rem;
+    font-weight:500;
+    color:var(--hilo-negro);
+    text-decoration:none;
+    letter-spacing:0.01em;
+  }
+  .marca span{color:var(--tierra);}
+  nav ul{
+    list-style:none;
+    display:flex;
+    gap:28px;
+    margin:0;
+    padding:0;
+  }
+  nav a{
+    text-decoration:none;
+    font-size:0.92rem;
+    color:var(--tinta-suave);
+    position:relative;
+    padding-bottom:3px;
+    transition:color 0.2s;
+  }
+  nav a:hover{color:var(--tierra);}
+  .nav-cta{
+    background:var(--tierra);
+    color:var(--lino) !important;
+    padding:9px 18px;
+    border-radius:2px;
+    font-size:0.88rem;
+    transition:background 0.2s;
+    white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--salvia-osc);}
+  .nav-links-wrap{display:flex; align-items:center; gap:28px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:76px 0 96px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:64px;
+    align-items:center;
+  }
+  .eyebrow{
+    font-family:'Karla',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    font-size:0.76rem;
+    color:var(--tierra);
+    margin-bottom:18px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;
+    height:1px;
+    background:var(--tierra);
+    display:inline-block;
+  }
+  h1.hero-title{
+    font-size:clamp(2.4rem, 4.2vw, 3.6rem);
+    line-height:1.08;
+    margin:0 0 26px;
+  }
+  h1.hero-title em{
+    font-style:italic;
+    color:var(--tierra);
+  }
+  .hero-sub{
+    font-size:1.08rem;
+    color:var(--tinta-suave);
+    max-width:46ch;
+    margin:0 0 34px;
+  }
+  .hero-ctas{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 26px;
+    border-radius:2px;
+    text-decoration:none;
+    font-size:0.94rem;
+    font-weight:500;
+    transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.2s;
+    border:1px solid transparent;
+    cursor:pointer;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primario{
+    background:var(--tierra);
+    color:var(--lino);
+  }
+  .btn-primario:hover{background:var(--salvia-osc); box-shadow:0 8px 22px var(--papel-sombra);}
+  .btn-secundario{
+    background:transparent;
+    border-color:var(--hilo-negro);
+    color:var(--hilo-negro);
+  }
+  .btn-secundario:hover{background:var(--hilo-negro); color:var(--lino);}
+
+  .hero-retrato{
+    position:relative;
+  }
+  .retrato-marco{
+    position:relative;
+    aspect-ratio:4/5;
+    background:var(--lino-osc);
+    border:1px solid rgba(46,42,38,0.15);
+    padding:14px;
+  }
+  .retrato-marco::after{
+    content:"";
+    position:absolute;
+    inset:14px;
+    border:1px dashed rgba(139,58,58,0.35);
+    pointer-events:none;
+  }
+  .retrato-marco img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    filter:sepia(6%) saturate(96%);
+  }
+  .retrato-tag{
+    position:absolute;
+    bottom:-16px;
+    left:-16px;
+    background:var(--salvia);
+    color:var(--lino);
+    padding:10px 18px;
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:0.95rem;
+    max-width:220px;
+    box-shadow:0 10px 26px var(--papel-sombra);
+  }
+
+  /* ---------- SECCIONES GENERALES ---------- */
+  section{
+    padding:88px 0;
+  }
+  .seccion-header{
+    max-width:640px;
+    margin:0 0 52px;
+  }
+  .seccion-header.centrada{
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+  }
+  .seccion-header h2{
+    font-size:clamp(1.9rem, 3vw, 2.5rem);
+    margin:0 0 14px;
+  }
+  .seccion-header p{
+    color:var(--tinta-suave);
+    font-size:1.02rem;
+  }
+
+  /* ---------- SOBRE MI ---------- */
+  #sobre-mi{background:var(--lino-osc);}
+  .sobre-mi-grid{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:60px;
+    align-items:start;
+  }
+  .cita-grande{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:1.5rem;
+    line-height:1.5;
+    color:var(--tierra);
+    margin:0 0 22px;
+  }
+  .sobre-mi-texto p{
+    margin:0 0 20px;
+    color:var(--tinta);
+  }
+  .firma{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:1.2rem;
+    color:var(--salvia-osc);
+    margin-top:28px;
+  }
+
+  /* ---------- POR QUE EL ARTE (antroposofia) ---------- */
+  .principios{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:0;
+  }
+  .principio{
+    padding:36px 30px;
+    position:relative;
+  }
+  .principio:not(:last-child){
+    border-right:1px dashed rgba(46,42,38,0.2);
+  }
+  .principio-icono{
+    width:46px;
+    height:46px;
+    margin-bottom:18px;
+  }
+  .principio h3{
+    font-size:1.2rem;
+    margin:0 0 12px;
+    font-weight:500;
+  }
+  .principio p{
+    color:var(--tinta-suave);
+    font-size:0.96rem;
+    margin:0;
+  }
+
+  /* ---------- FORMACION / TRAYECTORIA ---------- */
+  #trayectoria{background:var(--lino-osc);}
+  .trayectoria-cols{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+  }
+  .linea-tiempo{
+    list-style:none;
+    margin:0;
+    padding:0;
+    position:relative;
+  }
+  .linea-tiempo li{
+    padding-left:26px;
+    position:relative;
+    margin-bottom:22px;
+    font-size:0.95rem;
+  }
+  .linea-tiempo li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:6px;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--tierra-suave);
+  }
+  .linea-tiempo .anio{
+    font-weight:600;
+    color:var(--salvia-osc);
+    margin-right:6px;
+  }
+  .col-titulo{
+    font-family:'Fraunces',serif;
+    font-size:1.15rem;
+    margin:0 0 22px;
+    color:var(--hilo-negro);
+  }
+
+  /* ---------- GALERIA / MUESTRAS ---------- */
+  .galeria-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+  }
+  .galeria-item{
+    position:relative;
+    overflow:hidden;
+    aspect-ratio:1;
+    background:var(--lino-osc);
+  }
+  .galeria-item img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform 0.5s ease;
+  }
+  .galeria-item:hover img{transform:scale(1.06);}
+  .galeria-item .overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top, rgba(46,42,38,0.55), transparent 55%);
+    opacity:0;
+    transition:opacity 0.3s;
+    display:flex;
+    align-items:flex-end;
+    padding:16px;
+  }
+  .galeria-item:hover .overlay{opacity:1;}
+  .overlay span{
+    color:#fff;
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:0.92rem;
+  }
+
+  .galeria-ctas{
+    margin-top:44px;
+    display:flex;
+    gap:18px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+
+  /* ---------- TALLERES / SERVICIOS ---------- */
+  #servicios{background:var(--lino-osc);}
+  .servicios-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+  }
+  .servicio-card{
+    background:var(--lino);
+    padding:34px 28px;
+    position:relative;
+    border:1px solid rgba(46,42,38,0.12);
+  }
+  .servicio-card::before{
+    content:"";
+    position:absolute;
+    inset:7px;
+    border:1px dashed rgba(46,42,38,0.16);
+    pointer-events:none;
+  }
+  .servicio-num{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:0.85rem;
+    color:var(--tierra-suave);
+    margin-bottom:14px;
+    display:block;
+  }
+  .servicio-card h3{
+    font-size:1.15rem;
+    margin:0 0 12px;
+  }
+  .servicio-card p{
+    color:var(--tinta-suave);
+    font-size:0.94rem;
+    margin:0;
+  }
+
+  /* ---------- CTA FINAL ---------- */
+  #cita{
+    text-align:center;
+    background:var(--salvia-osc);
+    color:var(--lino);
+    position:relative;
+  }
+  #cita h2{color:var(--lino); font-size:clamp(1.9rem,3.4vw,2.7rem);}
+  #cita p{
+    color:rgba(244,238,225,0.85);
+    max-width:520px;
+    margin:0 auto 38px;
+  }
+  #cita .btn-primario{
+    background:var(--tierra-suave);
+  }
+  #cita .btn-primario:hover{background:var(--tierra);}
+  #cita .btn-secundario{
+    border-color:var(--lino);
+    color:var(--lino);
+  }
+  #cita .btn-secundario:hover{
+    background:var(--lino);
+    color:var(--salvia-osc);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:44px 0;
+    text-align:center;
+  }
+  footer p{
+    color:var(--tinta-suave);
+    font-size:0.85rem;
+    margin:6px 0;
+  }
+  footer a{text-decoration:underline; text-underline-offset:3px;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    nav ul{display:none;}
+    .hero-grid,.sobre-mi-grid,.trayectoria-cols{grid-template-columns:1fr; gap:40px;}
+    .hero-retrato{order:-1; max-width:320px; margin:0 auto;}
+    .principios{grid-template-columns:1fr;}
+    .principio:not(:last-child){border-right:none; border-bottom:1px dashed rgba(46,42,38,0.2);}
+    .galeria-grid{grid-template-columns:repeat(2,1fr);}
+    .servicios-grid{grid-template-columns:1fr;}
+    section{padding:64px 0;}
+  }
+
+  :focus-visible{
+    outline:2px solid var(--tierra);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; scroll-behavior:auto !important;}
+  }
+</style>
 </head>
-<body>
-  <nav>
-    <span>◆ NEXUS</span>
-    <div>
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#contact">Contact</a>
+<body class="lienzo-textura">
+
+<header>
+  <div class="nav-inner">
+    <a href="#top" class="marca">Viviana Soto <span>Reyes</span></a>
+    <div class="nav-links-wrap">
+      <nav>
+        <ul>
+          <li><a href="#sobre-mi">Sobre mí</a></li>
+          <li><a href="#por-que-arte">El arte como camino</a></li>
+          <li><a href="#servicios">Talleres</a></li>
+          <li><a href="#galeria">Muestras</a></li>
+          <li><a href="#trayectoria">Trayectoria</a></li>
+        </ul>
+      </nav>
+      <a href="https://encuadrado.com/p/viviana-soto-reyes" class="nav-cta" target="_blank" rel="noopener">Agendar hora</a>
     </div>
-  </nav>
+  </div>
+  <hr class="puntada">
+</header>
 
-  <div class="float"></div>
-  <div class="float"></div>
-  <div class="float"></div>
+<main id="top">
 
+  <!-- HERO -->
   <section class="hero">
-    <div>
-      <h1>Infinite Possibilities Await</h1>
-      <p>Experience the future of digital transformation with cutting-edge technology</p>
-      <div class="cta-group">
-        <button class="primary">Get Started</button>
-        <button>Learn More</button>
+    <div class="contenedor hero-grid">
+      <div>
+        <span class="eyebrow">Arteterapia · Pedagogía Waldorf · Antroposofía</span>
+        <h1 class="hero-title">El arte como <em>lenguaje</em> para lo que las palabras no alcanzan a decir.</h1>
+        <p class="hero-sub">Acompaño procesos de autoconocimiento y sanación a través de la creación artística, integrando la dimensión cognitiva, emocional y creativa de cada persona. Un espacio seguro, cálido y sin juicio — no necesitas saber dibujar ni pintar, solo darte la oportunidad de explorar.</p>
+        <div class="hero-ctas">
+          <a href="https://encuadrado.com/p/viviana-soto-reyes" class="btn btn-primario" target="_blank" rel="noopener">Reservar una sesión</a>
+          <a href="https://vivianasoto.art/cv_vesr.pdf" class="btn btn-secundario" target="_blank" rel="noopener">Descargar CV</a>
+        </div>
+      </div>
+      <div class="hero-retrato">
+        <div class="retrato-marco">
+          <img src="https://vivianasoto.art/vivi.png" alt="Retrato de Viviana Soto Reyes, arteterapeuta">
+        </div>
+        <div class="retrato-tag">Licenciada en Artes · Arteterapeuta · Profesora de Inglés</div>
       </div>
     </div>
   </section>
 
-  <section id="features" class="features">
-    <div class="feature">
-      <div class="feature-icon">⚡</div>
-      <h3>Lightning Fast</h3>
-      <p>Optimized performance with zero latency and seamless integration</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">🔒</div>
-      <h3>Enterprise Security</h3>
-      <p>Military-grade encryption and compliance with global standards</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">🎯</div>
-      <h3>Precision Analytics</h3>
-      <p>Real-time insights and predictive modeling for data-driven decisions</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">🚀</div>
-      <h3>Scalable Growth</h3>
-      <p>Infinitely scalable architecture that grows with your business</p>
+  <hr class="puntada">
+
+  <!-- SOBRE MI -->
+  <section id="sobre-mi">
+    <div class="contenedor sobre-mi-grid">
+      <div>
+        <span class="eyebrow">Sobre mí</span>
+        <h2>Crear también es una forma de encontrarte contigo.</h2>
+      </div>
+      <div class="sobre-mi-texto">
+        <p class="cita-grande">A veces las palabras no bastan para expresar lo que vivimos. El arte puede abrir ese camino.</p>
+        <p>Como arteterapeuta, te acompaño en un espacio seguro y creativo donde, a través de la creación artística, podrás explorar tus emociones, reconectar contigo, dar sentido a lo que estás viviendo y descubrir nuevos recursos para transitar momentos de cambio.</p>
+        <p>Un proceso para recuperar el equilibrio, cultivar una relación más amable contigo y encontrar nuevas formas de habitar tu vida. No necesitas saber dibujar ni pintar; solo darte la oportunidad de explorar.</p>
+        <p>También facilito talleres de arteterapia para niños y niñas, y realizo clases de inglés con una metodología cercana, creativa y centrada en la motivación.</p>
+        <p class="firma">— Viviana</p>
+      </div>
     </div>
   </section>
 
-  <section class="stats">
-    <div class="stat-item">
-      <h2>10K+</h2>
-      <p>Active Users</p>
-    </div>
-    <div class="stat-item">
-      <h2>99.9%</h2>
-      <p>Uptime</p>
-    </div>
-    <div class="stat-item">
-      <h2>50+</h2>
-      <p>Countries</p>
-    </div>
-    <div class="stat-item">
-      <h2>24/7</h2>
-      <p>Support</p>
-    </div>
-  </section> 
+  <hr class="puntada">
 
-  <section class="cta-section">
-    <h2>Ready to Transform?</h2>
-    <p>Join thousands of companies revolutionizing their industry with our platform</p>
-    <button class="primary">Start Free Trial</button>
+  <!-- POR QUE EL ARTE / ANTROPOSOFIA -->
+  <section id="por-que-arte">
+    <div class="contenedor">
+      <div class="seccion-header centrada">
+        <span class="eyebrow" style="justify-content:center;">Una mirada integral</span>
+        <h2>El arte como puente entre pensar, sentir y hacer</h2>
+        <p>Inspirada en la antroposofía y la pedagogía Waldorf, entiendo el proceso creativo como un movimiento que involucra a la persona completa: su cuerpo, su alma y su espíritu. El color, la forma y el gesto se vuelven herramientas para escuchar lo que habita en cada uno.</p>
+      </div>
+      <div class="principios borde-tela">
+        <div class="principio">
+          <h3>Cabeza, corazón y manos</h3>
+          <p>Cada actividad busca equilibrar lo cognitivo, lo emocional y lo práctico — el pensar, el sentir y el hacer — como una unidad viva y no como partes separadas.</p>
+        </div>
+        <div class="principio">
+          <h3>El ritmo que sana</h3>
+          <p>Como en la naturaleza y sus estaciones, el trabajo terapéutico respeta tiempos, repeticiones y silencios propios de cada proceso, sin apurar lo que necesita madurar.</p>
+        </div>
+        <div class="principio">
+          <h3>Un espacio de confianza</h3>
+          <p>Un lugar seguro, respetuoso y libre de juicio, donde la expresión artística se convierte en un medio de autoconocimiento y fortalecimiento de los propios recursos.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <footer>
-    <p>&copy; 2024 Nexus. All rights reserved. | <a href="#" style="color:#666;text-decoration:none">Privacy</a> | <a href="#" style="color:#666;text-decoration:none">Terms</a></p>
-  </footer>
+  <hr class="puntada">
+
+  <!-- SERVICIOS / TALLERES -->
+  <section id="servicios">
+    <div class="contenedor">
+      <div class="seccion-header centrada">
+        <span class="eyebrow" style="justify-content:center;">A quién acompaño</span>
+        <h2>Espacios de arteterapia para cada etapa de la vida</h2>
+      </div>
+      <div class="servicios-grid">
+        <div class="servicio-card">
+          <span class="servicio-num">Individual</span>
+          <h3>Arteterapia para adultos</h3>
+          <p>Sesiones personalizadas para explorar emociones, procesar cambios vitales y reconectar contigo a través de la creación artística.</p>
+        </div>
+        <div class="servicio-card">
+          <span class="servicio-num">Grupal</span>
+          <h3>Espacio de arteterapia para mujeres</h3>
+          <p>Un taller de encuentro, expresión y acompañamiento colectivo, tejiendo comunidad a través del arte compartido.</p>
+        </div>
+        <div class="servicio-card">
+          <span class="servicio-num">Infancia</span>
+          <h3>Talleres para niños y niñas</h3>
+          <p>Experiencias creativas que fortalecen la expresión emocional y el desarrollo integral desde una mirada Waldorf.</p>
+        </div>
+      </div>
+      <div class="galeria-ctas">
+        <a href="https://encuadrado.com/p/viviana-soto-reyes" class="btn btn-primario" target="_blank" rel="noopener">Ver horas disponibles y valores</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="puntada">
+
+  <!-- GALERIA -->
+  <section id="galeria">
+    <div class="contenedor">
+      <div class="seccion-header centrada">
+        <span class="eyebrow" style="justify-content:center;">Muestras de trabajo</span>
+        <h2>Lo que emerge cuando se le da espacio a la creación</h2>
+        <p>Obras realizadas en talleres de arteterapia y piezas del trabajo artístico personal de Viviana — principalmente en acuarela, técnica textil y cerámica.</p>
+      </div>
+      <div class="galeria-grid">
+        <div class="galeria-item">
+          <img src="1784597056348_image.png" alt="Bordado y acuarela sobre tela, trabajo de taller de arteterapia">
+          <div class="overlay"><span>Taller de arteterapia</span></div>
+        </div>
+        <div class="galeria-item">
+          <img src="1784597202167_image.png" alt="Mural Eco Escuela Infancia Viva">
+          <div class="overlay"><span>Proyecto comunitario</span></div>
+        </div>
+        <div class="galeria-item">
+          <img src="1784597345459_image.png" alt="Escultura pintada con flores, trabajo artístico personal">
+          <div class="overlay"><span>Arte personal</span></div>
+        </div>
+        <div class="galeria-item">
+          <img src="1784597353228_image.png" alt="Ilustración de mano con espectro de color">
+          <div class="overlay"><span>Arte personal</span></div>
+        </div>
+      </div>
+      <div class="galeria-ctas">
+        <a href="https://vivianasoto.art/arteterapia" class="btn btn-secundario" target="_blank" rel="noopener">Más trabajos de arteterapia</a>
+        <a href="https://vivianasoto.art/arte" class="btn btn-secundario" target="_blank" rel="noopener">Ver arte personal</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="puntada">
+
+  <!-- TRAYECTORIA -->
+  <section id="trayectoria">
+    <div class="contenedor">
+      <div class="seccion-header centrada">
+        <span class="eyebrow" style="justify-content:center;">Formación y trayectoria</span>
+        <h2>Una formación que une pedagogía, arte y terapia</h2>
+      </div>
+      <div class="trayectoria-cols">
+        <div>
+          <h3 class="col-titulo">Grados académicos</h3>
+          <ul class="linea-tiempo">
+            <li><span class="anio">2024–2026</span>Postítulo en Arteterapia, Espacio Crea, Chile.</li>
+            <li><span class="anio">2017</span>Licenciada en Educación, Profesora de Inglés, USACH, Santiago.</li>
+            <li><span class="anio">2007</span>Diseñadora en Comunicación Visual y Licenciada en Arte, UTEM, Santiago.</li>
+          </ul>
+          <h3 class="col-titulo" style="margin-top:36px;">Experiencia reciente</h3>
+          <ul class="linea-tiempo">
+            <li><span class="anio">2026–</span>Arteterapeuta, taller de arteterapia para niños y niñas, Corporación Lago Ranco.</li>
+            <li><span class="anio">2025</span>Tallerista de espacio de Arteterapia para mujeres, Lago Ranco.</li>
+            <li><span class="anio">2024–2025</span>Monitora de talleres de artes visuales para niños, niñas, jóvenes y adultos.</li>
+            <li><span class="anio">2024–2026</span>Colaboradora del programa "Vive la Música" en jardines infantiles y preescolar.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="col-titulo">Especialización en pedagogía Waldorf y antroposofía</h3>
+          <ul class="linea-tiempo">
+            <li><span class="anio">2026</span>Bases para el éxito en el aprendizaje infantil — Tamara Chubarovsky.</li>
+            <li><span class="anio">2022</span>Seminario Pedagógico Waldorf — Colegio Rudolf Steiner.</li>
+            <li><span class="anio">2021</span>Foreign Language Waldorf Teacher Training — Leslie Ramírez.</li>
+            <li><span class="anio">2021</span>El cuento como herramienta pedagógica — Tamara Chubarovsky.</li>
+            <li><span class="anio">2020–2021</span>Seminario de formación de maestros Waldorf — Seminarios Madre Tierra.</li>
+            <li><span class="anio">2020</span>Seminario intensivo de introducción a la antroposofía — Seminarios Madre Tierra.</li>
+            <li><span class="anio">2020</span>El árbol del vivir — Ximena Dávila y Humberto Maturana Romesín.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="cita">
+    <div class="contenedor">
+      <span class="eyebrow" style="justify-content:center; color:var(--tierra-suave);">Da el primer paso</span>
+      <h2>Date el espacio para crear y encontrarte contigo</h2>
+      <p>Agenda tu hora de arteterapia y conoce valores, modalidades y disponibilidad.</p>
+      <div class="hero-ctas" style="justify-content:center;">
+        <a href="https://encuadrado.com/p/viviana-soto-reyes" class="btn btn-primario" target="_blank" rel="noopener">Agendar mi hora</a>
+        <a href="https://vivianasoto.art/cv_vesr.pdf" class="btn btn-secundario" target="_blank" rel="noopener">Descargar CV</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="contenedor">
+    <p style="font-family:'Fraunces',serif; font-style:italic; font-size:1.05rem; color:var(--hilo-negro);">Viviana Soto Reyes</p>
+    <p>Licenciada en Artes · Profesora de Inglés · Arteterapeuta — Lago Ranco, Chile</p>
+    <p><a href="mailto:vivis.lpc@gmail.com">vivis.lpc@gmail.com</a> · +56 9 9917 2304</p>
+  </div>
+</footer>
+
 </body>
 </html>
